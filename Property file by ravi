@@ -1,0 +1,162 @@
+import asset.view.ADFUtils;
+
+import asset.view.JSFUtils;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+
+import java.io.IOException;
+
+import java.io.OutputStream;
+
+import java.util.Properties;
+
+import javax.faces.component.UIViewRoot;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+
+import javax.faces.event.ValueChangeEvent;
+
+import oracle.adf.view.rich.component.rich.input.RichInputText;
+
+public class TestBean {
+    
+    private RichInputText uname;
+    private RichInputText password;
+    private RichInputText team;
+    private RichInputText year;
+    
+    public TestBean() {
+    }
+
+    public void submitActionEvent(ActionEvent actionEvent) {
+             actionEvent.getComponent().processUpdates(FacesContext.getCurrentInstance());
+             FacesContext facesContext = FacesContext.getCurrentInstance();
+             UIViewRoot root = facesContext.getViewRoot();
+             RichInputText it1 = (RichInputText)root.findComponent("it1");
+             RichInputText it2 = (RichInputText)root.findComponent("it2");
+             RichInputText it3 = (RichInputText)root.findComponent("it3");
+             RichInputText it4 = (RichInputText)root.findComponent("it4");
+             
+             String uiName=(String)JSFUtils.resolveExpression("#{pageFlowScope.vcuName}");
+            // String uiPswd=(String)JSFUtils.resolveExpression("#{pageFlowScope.vcuPass}");
+             String uiPswd=it2.getValue().toString();
+             String uiTeam=it3.getValue().toString();
+             String uiYear=it4.getValue().toString();
+             
+        Properties prop = new Properties();
+        OutputStream output = null;
+        try {
+            output = new FileOutputStream("E:\\Task Daily work\\Feb 2\\showingProperties\\ViewController\\uiText.properties");
+            prop.setProperty("user", uiName);
+            prop.setProperty("password", uiPswd);
+            prop.setProperty("team", uiTeam);
+            prop.setProperty("year", uiYear);
+
+            // save properties to project root folder
+            prop.store(output, null);
+
+        } catch (IOException io) {
+            io.printStackTrace();
+        } finally {
+            if (output != null) {
+                try {
+                    output.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+         }
+
+    public void setUname(RichInputText uname) {
+        this.uname = uname;
+    }
+
+    public RichInputText getUname() throws FileNotFoundException, IOException {
+        FileReader reader=new FileReader("E:\\Task Daily work\\Feb 2\\showingProperties\\ViewController\\uiText.properties");
+        Properties property=new Properties();
+        property.load(reader);
+        String uname = property.getProperty("user").toString();
+        
+        RichInputText name= new RichInputText();
+        name.setValue(uname);
+        System.out.print("===========the value+++++++++"+name.getValue());
+        return name;
+        
+    }
+
+    public void setPassword(RichInputText password) {
+        this.password = password;
+    }
+
+    public RichInputText getPassword() throws FileNotFoundException,
+                                              IOException {
+                FileReader reader=new FileReader("E:\\Task Daily work\\Feb 2\\showingProperties\\ViewController\\uiText.properties");
+        Properties property=new Properties();
+        property.load(reader);
+        String uname = property.getProperty("password").toString();
+        RichInputText name= new RichInputText();
+        name.setValue(uname);
+        System.out.print("===========the value+++++++++"+name.getValue());
+        return name;
+    
+    }
+
+    public void setTeam(RichInputText team) {
+        this.team = team;
+    }
+
+    public RichInputText getTeam() throws IOException {
+        FileReader reader=new FileReader("E:\\Task Daily work\\Feb 2\\showingProperties\\ViewController\\uiText.properties");
+        Properties property=new Properties();
+        property.load(reader);
+        String uname = property.getProperty("team").toString();
+        RichInputText name= new RichInputText();
+        name.setValue(uname);
+        System.out.print("===========the value+++++++++"+name.getValue());
+        return name;
+    
+    }
+
+    public void setYear(RichInputText year) {
+        this.year = year;
+    }
+
+    public RichInputText getYear() throws FileNotFoundException, IOException {
+        FileReader reader=new FileReader("E:\\Task Daily work\\Feb 2\\showingProperties\\ViewController\\uiText.properties");
+        Properties property=new Properties();
+        property.load(reader);
+        String uname = property.getProperty("year").toString();
+        RichInputText name= new RichInputText();
+        name.setValue(uname);
+        System.out.print("===========the value+++++++++"+name.getValue());
+        return name;
+    
+    }
+
+
+    public void it1VCL(ValueChangeEvent vc) {
+        vc.getComponent().processUpdates(FacesContext.getCurrentInstance());
+        ADFUtils.setEL("#{pageFlowScope.vcuName}",vc.getNewValue());
+        System.err.println(vc.getNewValue());
+    }
+    
+    public void it2VCL(ValueChangeEvent vc) {
+        vc.getComponent().processUpdates(FacesContext.getCurrentInstance());
+        ADFUtils.setEL("#{pageFlowScope.vcuPass}",vc.getNewValue());
+        System.err.println(vc.getNewValue());
+    }
+    public void it3VCL(ValueChangeEvent vc) {
+        vc.getComponent().processUpdates(FacesContext.getCurrentInstance());
+        ADFUtils.setEL("#{pageFlowScope.vcuName}",vc.getNewValue());
+        System.err.println(vc.getNewValue());
+    }
+//    public void it1VCL(ValueChangeEvent vc) {
+//        vc.getComponent().processUpdates(FacesContext.getCurrentInstance());
+//        ADFUtils.setEL("#{pageFlowScope.vcuName}",vc.getNewValue());
+//        System.err.println(vc.getNewValue());
+//    }
+}
