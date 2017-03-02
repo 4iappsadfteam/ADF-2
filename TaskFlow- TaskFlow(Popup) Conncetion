@@ -1,0 +1,56 @@
+TaskFlow 1- Am 1 (Employee VO)
+TAskFlow 2- AM 2 (Employee VO)
+
+inside TF1-- TF2 is present
+
+TF1-Employee Table (Taken from AM 1 Employee vo)
+
+TF2-Employee Form  (Taken from AM 2 Employee vo)
+
+
+
+TF2-Employee Form ******** Save Button
+ 
+
+
+    public void onSave(ActionEvent actionEvent) {
+        DCBindingContainer bindings =  (DCBindingContainer)BindingContext.getCurrent().getCurrentBindingsEntry();
+        
+        DCIteratorBinding dcIter1 =bindings.findIteratorBinding("EmployeesBkpView2Iterator");
+        
+        DCIteratorBinding dcIter2 =bindings.findIteratorBinding("EmployeesBkpView1Iterator");
+//               RowSetIterator rsi = dcIter1.getRowSetIterator();
+               
+        ViewObject vo1=dcIter1.getViewObject();
+        
+        ViewObject vo2=dcIter2.getViewObject();        
+        
+        Row createRow = vo1.createRow();
+        
+        Row currentRow = vo2.getCurrentRow();
+        
+        createRow.setAttribute("EmployeeId", Integer.parseInt(currentRow.getAttribute("EmployeeId").toString()));
+        createRow.setAttribute("LastName", currentRow.getAttribute("LastName").toString());
+        createRow.setAttribute("Email", currentRow.getAttribute("Email"));
+        createRow.setAttribute("HireDate", currentRow.getAttribute("HireDate"));
+        createRow.setAttribute("JobId", currentRow.getAttribute("JobId").toString());
+        vo1.insertRow(createRow);
+              
+
+           }
+**********************************************
+TaskFlow 2 properties (dialogReturn)
+
+    public void dialogReturnListener(ReturnEvent returnEvent) {
+        BindingContext bc = BindingContext.getCurrent();
+          DCBindingContainer dcb =
+            (DCBindingContainer)bc.getCurrentBindingsEntry();
+          DCIteratorBinding iter =
+            dcb.findIteratorBinding("EmployeesBkpView2Iterator");
+          iter.executeQuery();
+          RequestContext.getCurrentInstance().addPartialTarget(returnEvent.getComponent().getParent().getParent());
+    }
+    
+ **********************************************   
+  TaskFlow 1 add taskflow 2 java code in manage bean  
+    
