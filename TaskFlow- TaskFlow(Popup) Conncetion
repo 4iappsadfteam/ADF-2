@@ -14,26 +14,30 @@ TF2-Employee Form ******** Save Button
 
 
     public void onSave(ActionEvent actionEvent) {
-        DCBindingContainer bindings =  (DCBindingContainer)BindingContext.getCurrent().getCurrentBindingsEntry();
+               DCBindingContainer bindings =  (DCBindingContainer)BindingContext.getCurrent().getCurrentBindingsEntry();
         
-        DCIteratorBinding dcIter1 =bindings.findIteratorBinding("EmployeesBkpView2Iterator");
+        // TaskFlow 1 IteratorBinding
         
-        DCIteratorBinding dcIter2 =bindings.findIteratorBinding("EmployeesBkpView1Iterator");
-//               RowSetIterator rsi = dcIter1.getRowSetIterator();
-               
-        ViewObject vo1=dcIter1.getViewObject();
+            DCIteratorBinding dcIter1 =bindings.findIteratorBinding("EmployeesBkpView2Iterator");
+        // TaskFlow 2 IteratorBinding
+                DCIteratorBinding dcIter2 =bindings.findIteratorBinding("EmployeesBkpView1Iterator");
+        // ViewObject 1
+            ViewObject vo1=dcIter1.getViewObject();
+        // ViewObject 2
+            ViewObject vo2=dcIter2.getViewObject();        
         
-        ViewObject vo2=dcIter2.getViewObject();        
+        //Row create for vo1
+            Row createRow = vo1.createRow();
+        //Row current for vo2
+            Row currentRow = vo2.getCurrentRow();
         
-        Row createRow = vo1.createRow();
-        
-        Row currentRow = vo2.getCurrentRow();
-        
+        // Setting data
         createRow.setAttribute("EmployeeId", Integer.parseInt(currentRow.getAttribute("EmployeeId").toString()));
         createRow.setAttribute("LastName", currentRow.getAttribute("LastName").toString());
         createRow.setAttribute("Email", currentRow.getAttribute("Email"));
         createRow.setAttribute("HireDate", currentRow.getAttribute("HireDate"));
         createRow.setAttribute("JobId", currentRow.getAttribute("JobId").toString());
+        //insert operation
         vo1.insertRow(createRow);
               
 
