@@ -1,0 +1,19 @@
+Sum of Two Attribute
+
+QualityValueChange----- in Quality Value chnage Event
+
+
+    public void QualityValueChange(ValueChangeEvent valueChangeEvent) {
+        valueChangeEvent.getComponent().processUpdates(FacesContext.getCurrentInstance());
+        AttributeBinding amount = ADFUtils.findControlBinding("Amount");
+        int amountValue = Integer.parseInt(amount.getInputValue().toString());
+        AttributeBinding quality = ADFUtils.findControlBinding("Quality");
+        int qualityValue = Integer.parseInt(quality.getInputValue().toString());
+        Integer total = (Integer)amountValue+qualityValue;
+        System.err.println(total);
+        System.err.println(total.getClass());
+        AttributeBinding totalValue = ADFUtils.findControlBinding("Total");
+        totalValue.setInputValue(total);
+        
+        AdfFacesContext.getCurrentInstance().addPartialTarget(getT1());
+    }
