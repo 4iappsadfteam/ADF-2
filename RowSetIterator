@@ -1,0 +1,18 @@
+
+    public void getData(ActionEvent actionEvent) {
+       int total = 0;
+       DCBindingContainer bind=(DCBindingContainer)BindingContext.getCurrent().getCurrentBindingsEntry();
+       DCIteratorBinding iter=bind.findIteratorBinding("EmployeesBkpView1Iterator");
+       ViewObject vo=iter.getViewObject();
+       Row cRow = vo.getCurrentRow();
+       RowSetIterator rs=vo.createRowSetIterator(null);
+       while(rs.hasNext()){
+          Row r = rs.next();
+           int amount2 = Integer.parseInt(r.getAttribute("Salary").toString());
+               if(amount2 > 17000){
+               total += amount2;
+               }
+           }
+       System.out.println("final amount "+total);
+       
+   }
