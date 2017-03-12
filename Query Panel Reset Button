@@ -1,0 +1,27 @@
+Query Panel: Reset Button Coding: Press Reset All Table Row Empty    
+    
+    
+    public Object invokeMethodExpression(String expr, Class returnType, Class[] argTypes, Object[] args) {
+          FacesContext fc = FacesContext.getCurrentInstance();
+          ELContext elctx = fc.getELContext();
+          ExpressionFactory elFactory = fc.getApplication().getExpressionFactory();
+          MethodExpression methodExpr = elFactory.createMethodExpression(elctx, expr, returnType, argTypes);
+          return methodExpr.invoke(elctx, args);
+      }
+
+    public Object invokeMethodExpression(String expr, Class returnType, Class argType, Object argument) {
+          return invokeMethodExpression(expr, returnType, new Class[] { argType }, new Object[] { argument });
+      }
+    
+
+    public void getMenuQuery(QueryOperationEvent queryOperationEvent) {
+        invokeMethodExpression("#{bindings.searchMenuQuery.processQueryOperation}", Object.class,
+                              QueryOperationEvent.class, queryOperationEvent);
+        if(queryOperationEvent.getOperation().name().toUpperCase().equals("RESET")) {
+                  ViewObject vo = ADFUtils.findIterator("SearchMenu_ROVO2Iterator").getViewObject();
+                  vo.executeEmptyRowSet();
+        }
+    }
+	
+	
+*********************************************************************************	
