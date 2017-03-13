@@ -16,3 +16,63 @@
        System.out.println("final amount "+total);
        
    }
+
+
+
+
+**********Percentage Calclation*****************
+
+
+
+
+
+
+public void onClickSubmit(ActionEvent actionEvent) {
+       // Add event code here...
+       BigDecimal total=new BigDecimal(0);
+       BigDecimal ConstantValue=new BigDecimal(100);
+       int result=0;
+       ADFUtils.getBindingContainer();
+       ViewObject vo=ADFUtils.findIterator("XxpmMilestonesDtl_VO1Iterator").getViewObject();
+       RowSetIterator rs = vo.createRowSetIterator(null);
+       while(rs.hasNext()){
+           Row r = rs.next();
+           int numerOfRows = Integer.parseInt(r.getAttribute("InstallmentPct").toString());
+           total=total.add(new BigDecimal(numerOfRows)); 
+          
+           System.err.println("+++++++++++"+total);
+       }
+       System.err.println("====Total value===="+total);
+       
+       result=total.compareTo(ConstantValue);
+       if(result<=0){
+           ADFUtils.getBindingContainer();
+           ADFUtils.findOperation("Commit").execute();
+           JSFUtils.addFacesInformationMessage("your Entered Value Saved Successfully");
+           AdfFacesContext.getCurrentInstance().addPartialTarget(t1);
+       }else {
+           JSFUtils.addFacesInformationMessage("Percentage should not be more than 100");
+       }
+   }
+
+
+Auto Submit True--
+
+   public void ValueChange(ValueChangeEvent valueChangeEvent) {
+       // Add event code here...
+       valueChangeEvent.getComponent().processUpdates(FacesContext.getCurrentInstance());
+       BigDecimal total=new BigDecimal(0);
+       ADFUtils.getBindingContainer();
+       ViewObject vo=ADFUtils.findIterator("XxpmMilestonesDtl_VO1Iterator").getViewObject();
+       RowSetIterator rs = vo.createRowSetIterator(null);
+       while(rs.hasNext()){
+           Row r = rs.next();
+           float numerOfRows = Float.parseFloat(r.getAttribute("InstallmentPct").toString());
+           total=total.add(new BigDecimal(numerOfRows)); 
+           System.err.println("+++++++++++"+total);
+       }
+     setTot(total);
+       AdfFacesContext.getCurrentInstance().addPartialTarget(ot5);
+       
+   }
+ private BigDecimal tot;
