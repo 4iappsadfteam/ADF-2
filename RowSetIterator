@@ -24,9 +24,6 @@
 
 
 
-
-
-
 public void onClickSubmit(ActionEvent actionEvent) {
        // Add event code here...
        BigDecimal total=new BigDecimal(0);
