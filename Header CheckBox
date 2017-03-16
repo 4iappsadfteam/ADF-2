@@ -1,0 +1,40 @@
+Header CheckBox/Select All and Deselect All
+
+
+
+    public void onClickSlectAll(ValueChangeEvent valueChangeEvent) {
+            System.err.println("========"+valueChangeEvent.getNewValue());
+            System.err.println("--------"+valueChangeEvent.getOldValue());
+                 if(valueChangeEvent.getOldValue() != null){
+            if(valueChangeEvent.getNewValue() != null && valueChangeEvent.getNewValue().toString().equals("true")){
+                System.err.println("===1==" + valueChangeEvent.getNewValue());
+                ViewObject vo = ADFUtils.findIterator("XxfndMenuAccessT_VO1Iterator").getViewObject();
+                RowSetIterator rs = vo.createRowSetIterator("");
+                while (rs.hasNext()){
+                    
+                    Row r = rs.next();
+                    r.setAttribute("Display", Boolean.TRUE);
+                    RichSelectBooleanCheckbox select = (RichSelectBooleanCheckbox) JSFUtils.findComponentInRoot("sbc1");
+                    select.setValue(Boolean.TRUE);
+                    AdfFacesContext.getCurrentInstance().addPartialTarget(select);
+                        }
+                AdfFacesContext.getCurrentInstance().addPartialTarget(t1);
+            }
+            if(valueChangeEvent.getNewValue() != null && valueChangeEvent.getNewValue().toString().equals("false")){
+                System.err.println("===2==" + valueChangeEvent.getNewValue());
+                ViewObject vo = ADFUtils.findIterator("XxfndMenuAccessT_VO1Iterator").getViewObject();
+                RowSetIterator rs = vo.createRowSetIterator("");
+                while (rs.hasNext()) 
+                    {
+                      Row r = rs.next();
+                      r.setAttribute("Display", Boolean.FALSE);
+                      RichSelectBooleanCheckbox select = (RichSelectBooleanCheckbox) JSFUtils.findComponentInRoot("sbc1");
+                      select.setValue(Boolean.FALSE);
+                      AdfFacesContext.getCurrentInstance().addPartialTarget(select);
+                    }
+                AdfFacesContext.getCurrentInstance().addPartialTarget(t1);
+            }
+        
+        }else{
+            System.out.println("exit");}
+        }
