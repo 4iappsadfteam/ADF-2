@@ -1,5 +1,12 @@
+JS File Name: CustomLibrary
+
 ******Client Listener******
 Allow only number or alphabet
+******************************
+Page: Component- Add Resources
+
+
+
 
 
 function restrictInput(adfKeyPressEvent, numericExpression) {
