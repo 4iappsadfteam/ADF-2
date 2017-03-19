@@ -1,0 +1,5 @@
+#{row.Status eq 'N' || row.Status eq null ? 'true' : 'false'}
+
+
+
+#{bindings.BankName.inputValue eq null || bindings.BankBranchId.inputValue eq null || bindings.CurrencyCode.inputValue eq null}

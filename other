@@ -1,1 +1,0 @@
-#{row.Status eq 'N' || row.Status eq null ? 'true' : 'false'}
