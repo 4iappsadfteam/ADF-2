@@ -1,0 +1,84 @@
+    public void onClickvcl(ValueChangeEvent valueChangeEvent) {
+        
+        if (valueChangeEvent.getOldValue() != null) {
+            if (valueChangeEvent.getComponent().getId().toString().equals("sbc4")) {
+                System.err.println(valueChangeEvent.getOldValue());
+                System.err.println(valueChangeEvent.getNewValue());
+                if (valueChangeEvent.getNewValue() != null &&
+                    valueChangeEvent.getNewValue().toString().equals("true")) {
+                    System.err.println("===1===" +
+                                       valueChangeEvent.getNewValue());
+
+                    ViewObject vo =
+                        ADFUtils.findIterator("XxbfmSetupOptionsT_VO1Iterator").getViewObject();
+                    Row r = vo.getCurrentRow();
+
+                    r.setAttribute("AtCompLevelOnly", "N");
+                    RichSelectBooleanCheckbox com =
+                        (RichSelectBooleanCheckbox)JSFUtils.findComponentInRoot("sbc5");
+                    //           com.setValid(Boolean.FALSE);
+                    AdfFacesContext.getCurrentInstance().addPartialTarget(com);
+
+                    r.setAttribute("AtOuLevelOnly", "N");
+                    RichSelectBooleanCheckbox bankleve =
+                        (RichSelectBooleanCheckbox)JSFUtils.findComponentInRoot("sbc6");
+                    //           bankleve.setValid(Boolean.FALSE);
+                    AdfFacesContext.getCurrentInstance().addPartialTarget(bankleve);
+
+                }
+            } else if (valueChangeEvent.getComponent().getId().toString().equals("sbc5")) {
+                System.err.println(valueChangeEvent.getOldValue());
+                System.err.println(valueChangeEvent.getNewValue());
+                if (valueChangeEvent.getNewValue() != null &&
+                    valueChangeEvent.getNewValue().toString().equals("true")) {
+                    System.err.println("===2===" +
+                                       valueChangeEvent.getNewValue());
+
+                    ViewObject vo =
+                        ADFUtils.findIterator("XxbfmSetupOptionsT_VO1Iterator").getViewObject();
+                    Row r = vo.getCurrentRow();
+
+                    r.setAttribute("AtGroupLevelOnly", "N");
+                    RichSelectBooleanCheckbox com =
+                        (RichSelectBooleanCheckbox)JSFUtils.findComponentInRoot("sbc4");
+                    //           com.setValid(Boolean.FALSE);
+                    AdfFacesContext.getCurrentInstance().addPartialTarget(com);
+
+                    r.setAttribute("AtOuLevelOnly", "N");
+                    RichSelectBooleanCheckbox bankleve =
+                        (RichSelectBooleanCheckbox)JSFUtils.findComponentInRoot("sbc6");
+                    //           bankleve.setValid(Boolean.FALSE);
+                    AdfFacesContext.getCurrentInstance().addPartialTarget(bankleve);
+
+                }
+            } else if (valueChangeEvent.getComponent().getId().toString().equals("sbc6")) {
+                System.err.println(valueChangeEvent.getOldValue());
+                System.err.println(valueChangeEvent.getNewValue());
+                if (valueChangeEvent.getNewValue() != null &&
+                    valueChangeEvent.getNewValue().toString().equals("true")) {
+                    System.err.println("===3===" +
+                                       valueChangeEvent.getNewValue());
+
+                    ViewObject vo =
+                        ADFUtils.findIterator("XxbfmSetupOptionsT_VO1Iterator").getViewObject();
+                    Row r = vo.getCurrentRow();
+
+                    r.setAttribute("AtGroupLevelOnly", "N");
+                    RichSelectBooleanCheckbox com =
+                        (RichSelectBooleanCheckbox)JSFUtils.findComponentInRoot("sbc4");
+                    //           com.setValid(Boolean.FALSE);
+                    AdfFacesContext.getCurrentInstance().addPartialTarget(com);
+
+                    r.setAttribute("AtCompLevelOnly", "N");
+                    RichSelectBooleanCheckbox bankleve =
+                        (RichSelectBooleanCheckbox)JSFUtils.findComponentInRoot("sbc5");
+                    //           bankleve.setValid(Boolean.FALSE);
+                    AdfFacesContext.getCurrentInstance().addPartialTarget(bankleve);
+
+                }
+
+            }
+        } else {
+            System.err.println("Exit");
+        }
+    }
