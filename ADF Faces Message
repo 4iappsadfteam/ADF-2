@@ -1,0 +1,20 @@
+Faces Message: 
+
+
+        StringBuilder builder = new StringBuilder("<html> <body>");
+        builder.append("<p>Bank Guarantee Detail has been Invoke.</p>");
+        builder.append("<p>Please Enter <b>Invoke Date<b></p>");
+        builder.append("<p>Please Enter <b>Close Date<b></p>");
+        builder.append("<p>Please Enter <b>Invoked Receipt Number<b></p>");
+        builder.append("<p>Please Enter <b>Invoked Receipt Date<b></p>");
+        builder.append("</body> </html>");
+        JSFUtils.addFacesInformationMessage(builder.toString());
+        
+        
+        
+     public static void addFacesInformationMessage(String msg) {
+        FacesContext ctx = getFacesContext();
+        FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, "");
+        ctx.addMessage(getRootViewComponentId(), fm);
+        
+    }
