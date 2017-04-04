@@ -1,0 +1,23 @@
+table--Vs Pop Up
+*******table data taken from Pop Up********
+
+
+
+public void onClickCodeOk(ActionEvent actionEvent) {
+        ViewObject dtlsVO =
+            ADFUtils.findIterator("XxbfmAccSetupDtls_VO1Iterator").getViewObject();
+        ViewObject codeVO =
+            ADFUtils.findIterator("CodeCombination_ROVO1Iterator").getViewObject();
+        if (codeVO.getCurrentRow() != null &&
+            dtlsVO.getCurrentRow() != null) {
+            dtlsVO.getCurrentRow().setAttribute("CodeCombId",
+                                                codeVO.getCurrentRow().getAttribute("CodeCombinationId"));
+            dtlsVO.getCurrentRow().setAttribute("CodeCombCode",
+                                                codeVO.getCurrentRow().getAttribute("CodeComb"));
+            System.err.println("===SET==");
+            RichOutputText code=(RichOutputText)JSFUtils.findComponentInRoot("it1");
+            AdfFacesContext.getCurrentInstance().addPartialTarget(code);
+        }
+        RichPopup d=(RichPopup)JSFUtils.findComponentInRoot("p3");
+         d.cancel();
+    }
