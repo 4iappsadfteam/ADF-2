@@ -20,3 +20,37 @@
             System.err.println("Exit");
             }
         }
+
+
+
+**LOV: Repeated value Block************************************************************************
+
+
+
+
+    public void onChangeAccountType(ValueChangeEvent valueChangeEvent) {
+        valueChangeEvent.getComponent().processUpdates(FacesContext.getCurrentInstance());
+        ViewObject vo =
+            ADFUtils.findIterator("XxbfmAccSetupDtls_VO1Iterator").getViewObject();
+        if (vo.getCurrentRow() != null) {
+            String compStr =
+                vo.getCurrentRow().getAttribute("AccTypeCode") != null ?
+                vo.getCurrentRow().getAttribute("AccTypeCode").toString() :
+                null;
+            if (compStr != null && "ACC_BANK".equals(compStr)) {
+                RowSetIterator rs = vo.createRowSetIterator("");
+                int count = 0;
+                while (rs.hasNext()) {
+                    Row r = rs.next();
+                    if (compStr.equals(r.getAttribute("AccTypeCode").toString())) {
+                        count++;
+                    }
+                }
+                if (count <= 1) {
+
+                } else {
+                    JSFUtils.addFacesErrorMessage("Please select unique Account Type");
+                }
+            }
+        }
+    }
