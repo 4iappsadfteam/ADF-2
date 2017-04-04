@@ -25,3 +25,16 @@ Query Panel: Reset Button Coding: Press Reset All Table Row Empty
 	
 	
 *********************************************************************************	
+_____________________________
+search box: information- Reset
+_____________________________
+code given in : ok-cancel button
+
+            RichQuery queryComp=(RichQuery)JSFUtils.findComponentInRoot("qryId1");
+            QueryModel queryModel = queryComp.getModel();
+            QueryDescriptor queryDescriptor = queryComp.getValue(); 
+            queryModel.reset(queryDescriptor); 
+            queryComp.refresh(FacesContext.getCurrentInstance());  
+        
+ViewObject codeVO = ADFUtils.findIterator("CodeCombination_ROVO1Iterator").getViewObject();
+		codeVO.executeEmptyRowSet();
