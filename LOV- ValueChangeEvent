@@ -1,0 +1,22 @@
+    LOV- ValueChangeEvent
+    
+    
+    
+    public void onChangeDisable(ValueChangeEvent valueChangeEvent) {
+        System.out.println("+++++++old"+valueChangeEvent.getOldValue());
+        System.out.println("+++++new"+valueChangeEvent.getNewValue());
+        if(valueChangeEvent.getOldValue()==""){
+            
+            if(valueChangeEvent.getNewValue()!=null){
+                System.err.println("++++++NewValuew+++++++"+valueChangeEvent.getNewValue());
+                ViewObject vo=ADFUtils.findIterator("XxbfmAccSetup_VO1Iterator").getViewObject();
+                Row r= vo.getCurrentRow();
+                r.setAttribute("OrgId", valueChangeEvent.getNewValue());
+                System.err.println(r.getAttribute("OrgId"));
+                this.soc1.setReadOnly(Boolean.TRUE);
+                AdfFacesContext.getCurrentInstance().addPartialTarget(soc1);
+                           }
+        }else{
+            System.err.println("Exit");
+            }
+        }
