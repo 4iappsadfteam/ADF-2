@@ -1,0 +1,59 @@
+ another table where class
+
+
+    public void onChangeQty(ValueChangeEvent valueChangeEvent) {
+        valueChangeEvent.getComponent().processUpdates(FacesContext.getCurrentInstance());
+        System.err.println("OLD Value"+valueChangeEvent.getOldValue());
+        System.err.println("New Value"+valueChangeEvent.getNewValue());
+        ViewObject vo=ADFUtils.findIterator("XxbfmLcTrxDtlsT_VO1Iterator").getViewObject();
+        Row r=vo.getCurrentRow();
+        if(valueChangeEvent.getNewValue()!=null&&it9.getValue()!=null){
+            float qty =it12.getValue()==null?0:Float.parseFloat(it12.getValue().toString());
+            float rate=it9.getValue()==null?0:Float.parseFloat(it9.getValue().toString());
+            float netAmount=qty*rate;
+            r.setAttribute("NetAmount", netAmount);
+            AdfFacesContext.getCurrentInstance().addPartialTarget(it6);
+            r.setAttribute("FacilityAmt", netAmount);
+            AdfFacesContext.getCurrentInstance().addPartialTarget(it16);
+        }
+        
+            ViewObject parentVo=ADFUtils.findIterator("XxbfmFacilityLcTrxT_VO1Iterator").getViewObject();
+            Row parentRow=parentVo.getCurrentRow();
+            System.err.println("=====Child====="+parentRow.getAttribute("FuncCurrencyCode"));
+                
+            ViewObject detail2Vo=ADFUtils.findIterator("XxbfmLcTrxDtlsT_VO1Iterator").getViewObject();
+            Row detail2Row=detail2Vo.getCurrentRow();        
+            System.err.println("=======Parent======="+detail2Row.getAttribute("ItemCurr")); 
+            
+            if(detail2Vo.getCurrentRow().getAttribute("ItemCurr")!=null &&parentVo.getCurrentRow().getAttribute("FuncCurrencyCode")!=null){
+                if(detail2Vo.getCurrentRow().getAttribute("ItemCurr").toString().equals(parentVo.getCurrentRow().getAttribute("FuncCurrencyCode"))){
+                    float convertionRate=1;
+                    float netAmount=it16.getValue()==null?0:Float.parseFloat(it16.getValue().toString());
+                    float funcAmount=convertionRate*netAmount;
+                    detail2Row.setAttribute("NetFunctionalCurr", funcAmount);
+                    AdfFacesContext.getCurrentInstance().addPartialTarget(it15);
+                    detail2Row.setAttribute("FactilityAmtFuncCurr", funcAmount);
+                    AdfFacesContext.getCurrentInstance().addPartialTarget(it11);  
+                    
+                }else{
+                    ViewObject dailyVo=ADFUtils.findIterator("DailyRate_ROVO1Iterator").getViewObject();
+                        
+                    dailyVo.setNamedWhereClauseParam("from_curr", detail2Vo.getCurrentRow().getAttribute("ItemCurr"));
+                    dailyVo.setNamedWhereClauseParam("to_curr", parentVo.getCurrentRow().getAttribute("FuncCurrencyCode"));
+                    dailyVo.executeQuery();
+                    System.err.println("====Count===="+dailyVo.getEstimatedRowCount());
+                    if(dailyVo.getEstimatedRowCount()>0){
+                        dailyVo.first().getAttribute("ConversionRate");
+                        System.err.println("Converted rate"+dailyVo.first().getAttribute("ConversionRate"));
+                        float convertionRate=Float.parseFloat(dailyVo.first().getAttribute("ConversionRate").toString());
+                        float netAmount=it16.getValue()==null?0:Float.parseFloat(it16.getValue().toString());
+                        float funcAmount=convertionRate*netAmount;
+                        detail2Row.setAttribute("NetFunctionalCurr", funcAmount);
+                        AdfFacesContext.getCurrentInstance().addPartialTarget(it15);
+                        detail2Row.setAttribute("FactilityAmtFuncCurr", funcAmount);
+                        AdfFacesContext.getCurrentInstance().addPartialTarget(it11);  
+                        }
+                }
+            }
+        
+        }
