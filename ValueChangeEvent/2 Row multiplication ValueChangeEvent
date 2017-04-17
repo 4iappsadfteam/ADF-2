@@ -1,0 +1,23 @@
+ValueChangeEvent    
+    
+    
+    
+    public void onClickRepayInterest(ValueChangeEvent valueChangeEvent) {
+        valueChangeEvent.getComponent().processUpdates(FacesContext.getCurrentInstance());
+        System.err.println("OLD Value"+valueChangeEvent.getOldValue());
+        System.err.println("NEW Value"+valueChangeEvent.getNewValue());
+                  
+        ViewObject vo = ADFUtils.findIterator("XxbfmLoanRepayment_VO1Iterator").getViewObject();
+        Row r=vo.getCurrentRow();
+               
+         if(valueChangeEvent.getNewValue()!=null && it18.getValue()!=null){
+            
+             float repayAmt=it18.getValue()==null?0:Float.parseFloat(it18.getValue().toString());
+             float repayInter=it20.getValue()==null?0:Float.parseFloat(it20.getValue().toString());
+            float totalRepayAmount=(repayAmt*repayInter);
+            
+            r.setAttribute("RepayInterestAmt", totalRepayAmount);
+            AdfFacesContext.getCurrentInstance().addPartialTarget(it19);
+         
+        }
+    }
