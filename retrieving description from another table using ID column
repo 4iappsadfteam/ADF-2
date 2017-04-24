@@ -1,0 +1,23 @@
+    <h5> 1. Button Click </h5>
+    <h5>2  Pop up open</h5>
+    <h5>3. selecting any one row</h5>
+    <h5>4. ok button program(onClickSelect)</h5>
+    
+    
+    
+    public void onClickSelect(ActionEvent actionEvent) {
+       
+       //entity VO
+       ViewObject enVO=ADFUtils.findIterator("XxProdordr_VOIterator").getViewObject();
+       //ROVO
+       ViewObject roVO=ADFUtils.findIterator("ViewProduct_ROVOIterator").getViewObject();
+       Row rovoRow= roVO.getCurrentRow();
+       //ROVO- current Row
+       if(roVO.getCurrentRow()!=null){
+           //new Row Created 
+           Row newRow=enVO.createRow();
+           //setting Value to new Row 
+           newRow.setAttribute("PId", rovoRow.getAttribute("PId"));
+           // insert Operation
+           enVO.insertRow(newRow);            
+       }
