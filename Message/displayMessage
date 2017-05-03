@@ -1,0 +1,28 @@
+
+utils.displayMessage("Bank Guarantee Outwards Saved Successfully with Ref.No " +
+                                     refNO, "");
+      
+      
+      
+      public void displayMessage(String str, String type) {
+            AdfFacesContext adfFacesContext = null;
+            adfFacesContext = AdfFacesContext.getCurrentInstance();
+            FacesContext ctx = FacesContext.getCurrentInstance();
+            FacesMessage fm = null;
+            if (type.equalsIgnoreCase("")) {
+                fm = FacesMessageUtils.getConfirmationMessage(new FacesMessage(str));
+            }
+            if (type.equalsIgnoreCase("ERROR")) {
+                fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, str, "");
+            }
+            if (type.equalsIgnoreCase("WARN")) {
+                fm = new FacesMessage(FacesMessage.SEVERITY_WARN, str, "");
+            }
+            if (type.equalsIgnoreCase("INFO")) {
+                fm = new FacesMessage(FacesMessage.SEVERITY_INFO, str, "");
+            }
+            if (type.equalsIgnoreCase("FATAL")) {
+                fm = new FacesMessage(FacesMessage.SEVERITY_FATAL, str, "");
+            }
+            ctx.addMessage(null, fm);
+        }
