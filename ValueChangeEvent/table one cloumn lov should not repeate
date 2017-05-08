@@ -1,0 +1,25 @@
+if (valueChangeEvent.getNewValue() != null) {
+           valueChangeEvent.getComponent().processUpdates(FacesContext.getCurrentInstance());
+           ViewObject vo =
+               ADFUtils.findIterator("XxpmMilestonesDtl_VO1Iterator").getViewObject();
+
+          
+         
+                  RowSetIterator rs = vo.createRowSetIterator("");
+           int i=0;
+           while (rs.hasNext()) {
+               Row r = rs.next();
+                  System.err.println(valueChangeEvent.getNewValue().toString()+"===TEST==="+r.getAttribute("InstallmentType").toString());
+
+               if (valueChangeEvent.getNewValue().toString().equals(r.getAttribute("InstallmentType").toString())) {
+                   i++;
+                       }
+                  System.err.println("====I==="+i);
+              }
+
+           if (i < 2) {
+               System.err.println("====NORMAL===");
+           } else {
+               System.err.println("====DUP===");
+           }
+       }
