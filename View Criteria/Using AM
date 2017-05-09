@@ -1,0 +1,61 @@
+
+BankList- Javaclass-Getter and setter
+VO- VOImpl
+
+No Duplicate data will insert
+
+
+    public AppModuleImpl getAm() {
+       String amDef = "fusion.bfm.sync.model.ApplicationModel";
+       String config = "AppModuleLocal";
+       ApplicationModule am =
+           Configuration.createRootApplicationModule(amDef, config);
+       AppModuleImpl amImpl = (AppModuleImpl)am;
+       return amImpl;
+    }
+    
+******************************************************************************************************************************************    
+        public String insertBankData(List<BankList> bankList) {
+    String retStatus="N";
+        if (!bankList.isEmpty()) {
+                    ListIterator<BankList> bank =bankList.listIterator();
+                    while (bank.hasNext()) {
+                        ViewObject bankVO =getAm().getXxBanks_VO1().getViewObject();
+                        BankList bankObj =bank.next();
+                        String isDuplicate =checkBankDuplicate(bankObj.getBANK_ID());
+                        if(isDuplicate == "N") {
+                            XxBanks_VORowImpl newRow =(XxBanks_VORowImpl)bankVO.createRow();
+                            newRow.setAttribute("BankId",bankObj.getBANK_ID());
+                            newRow.setAttribute("BankName",bankObj.getBANK_NAME());
+                            newRow.setAttribute("CountryCode","");
+                            newRow.setAttribute("CountryName","");
+                            newRow.setAttribute("OrgId",bankObj.getORG_ID());
+                            bankVO.insertRow(newRow);
+                        }
+                    }
+                    getAm().getDBTransaction().commit();
+                    retStatus="Y";
+                }
+    return retStatus;
+    }
+    
+    ******************************************************************************************************************************************
+    public String checkBankDuplicate(BigDecimal bankID) {
+       String isDuplicate = "";
+       ViewObject vo = getAm().getXxBanks_VO1().getViewObject();
+       ViewObjectImpl voImpl = (ViewObjectImpl)vo.getViewObject();
+       voImpl.getViewCriteria("XxBanks_VOCriteria");
+       voImpl.setNamedWhereClauseParam("p_bank_id", bankID);
+       voImpl.applyViewCriteria(voImpl.getViewCriteria("XxBanks_VOCriteria"));
+       voImpl.executeQuery();
+       if (voImpl.first() == null) {
+           isDuplicate = "N";
+           System.err.println("No Duplicate");
+       } else {
+           isDuplicate = "Y";
+           System.err.println("Yes Duplicate");
+           System.err.println("VO Attribute" +
+                              voImpl.first().getAttribute("BankId"));
+       }
+       return isDuplicate;
+    }
