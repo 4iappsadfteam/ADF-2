@@ -1,0 +1,72 @@
+
+Row 2: LOV: Booking (Duplicate)- Reset
+Row 1: LOV: Booking
+
+
+
+
+  public void onChangeInstallTypeVCL(ValueChangeEvent valueChangeEvent) {
+       valueChangeEvent.getComponent().processUpdates(FacesContext.getCurrentInstance());
+       if (valueChangeEvent.getNewValue() != null &&
+           valueChangeEvent.getNewValue() != "") {
+           Object installTypeObj = null;
+           installTypeObj =
+                   getValueFrmExpression(JSFUtils.resolveExpression("#{row.bindings.InstallmentType.attributeValue}").toString());
+           System.err.println("HELLO ---" + installTypeObj.toString());
+           String result = checkDuplicate(installTypeObj.toString());
+           if (result.endsWith("Y")) {
+               JSFUtils.addFacesInformationMessage("Selected installment type is already exist!..");
+               installTypeId.setValue(valueChangeEvent.getOldValue());
+               AdfFacesContext.getCurrentInstance().addPartialTarget(installTypeId);
+
+           }
+       }
+
+
+   }
+
+   public Object getValueFrmExpression(String data) {
+       Object Message = null;
+       try {
+           FacesContext fc = FacesContext.getCurrentInstance();
+           Application app = fc.getApplication();
+           ExpressionFactory elFactory = app.getExpressionFactory();
+           ELContext elContext = fc.getELContext();
+           ValueExpression valueExp =
+               elFactory.createValueExpression(elContext, data, Object.class);
+
+           Object obj = valueExp.getValue(elContext);
+           if (obj != null) {
+               Message = obj;
+           }
+
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
+       return Message;
+   }
+
+   public String checkDuplicate(String installType) {
+       String isDuplicate = "N";
+       try {
+
+           ViewObject milestoneVO =
+               ADFUtils.findIterator("XxpmMilestonesDtl_VO1Iterator").getViewObject();
+           Row[] rows =
+               milestoneVO.getFilteredRows("InstallmentType", installType);
+           if (rows.length > 1)
+               return isDuplicate = "Y";
+
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
+       return isDuplicate;
+   }
+
+   public void setInstallTypeId(RichSelectOneChoice installTypeId) {
+       this.installTypeId = installTypeId;
+   }
+
+   public RichSelectOneChoice getInstallTypeId() {
+       return installTypeId;
+   }
