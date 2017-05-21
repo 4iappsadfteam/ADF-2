@@ -1,0 +1,33 @@
+************************LOV******************************
+
+   public void onChangeAreaType(ValueChangeEvent valueChangeEvent) {
+        try {
+            //        System.err.println("AreaTypeLov=====" +
+            //                           valueChangeEvent.getNewValue());
+            if (valueChangeEvent.getNewValue() != null &&
+                valueChangeEvent.getNewValue() != "")
+                JSFUtils.setExpressionValue("#{viewScope.AreaTypeLov}",
+                                            valueChangeEvent.getNewValue().toString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+	
+	
+
+************************get value from VCL******************************
+	Object FloorType =
+                (JSFUtils.resolveExpressionAsString("#{viewScope.FloorTypeLov}") ==
+                 null ? null :
+                 JSFUtils.resolveExpression("#{viewScope.FloorTypeLov}"));
+
+
+************************Inserting Value to DB******************************
+ 
+ ViewObject unitVO =
+                        ADFUtils.findIterator("XxpmPropertyUnits_VO1Iterator").getViewObject();
+            //        System.err.println("HELLO===" + ViewType);
+           
+            if (FloorType != null)
+                unitVO.getCurrentRow().setAttribute("FloorNumber", FloorType);				 
