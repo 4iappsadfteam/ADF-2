@@ -1,0 +1,13 @@
+First we are generating the BC through the JDeveloper wizard.
+
+generate the java class of the Application Module:
+
+Inside the java class we place the following code:
+
+
+    public void createNewRow(){
+        ViewObjectImpl lineVo=getXxemsCustPoLines_VO2();
+        Row createRow=lineVo.createRow();
+        lineVo.insertRow(createRow);
+        lineVo.setCurrentRow(createRow);
+    }
