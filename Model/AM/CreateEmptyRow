@@ -1,0 +1,45 @@
+
+
+
+/********************************************************************************************/
+
+    public void createNewRow() {
+        ViewObjectImpl lineVo = getXxemsCustPoLines_VO2();
+        Row createLineRow = lineVo.createRow();
+        lineVo.insertRow(createLineRow);
+        //
+        //        ViewObjectImpl lineShipVo=getXxemsCustPoLineSched_VO1();
+        //        Row createShipRow=lineShipVo.createRow();
+        //        lineShipVo.insertRow(createShipRow);
+        //
+        //        ViewObjectImpl lineDistVo=getXxemsCustPoLineDist_VO1();
+        //        Row createDistRow=lineDistVo.createRow();
+        //        lineDistVo.insertRow(createDistRow);
+        //
+
+    }
+    
+ /*****************************Sequence numbe***************************************************************/
+ 
+        public void createNewSchedule() {
+        ViewObjectImpl headerVo = getXxemsCustPoHeaders_VO2();
+        ViewObjectImpl lineVo = getXxemsCustPoLines_VO2();
+        if (lineVo.getCurrentRow() != null &&
+            headerVo.getCurrentRow() != null) {
+            ViewObjectImpl schVO = getXxemsCustPoLineSched_VO1();
+            long noOfRow = schVO.getEstimatedRowCount();
+            Row newRow = schVO.createRow();
+            newRow.setAttribute("CpoHeaderId",
+                                headerVo.getCurrentRow().getAttribute("CpoHeaderId"));
+            newRow.setAttribute("ScheduleNumber", (noOfRow + 1));
+            newRow.setAttribute("IdentityFlag", "Y");
+            newRow.setAttribute("ShipQuantity",lineVo.getCurrentRow().getAttribute("Quantity"));//Quantity
+            newRow.setAttribute("ShipToLocationId",
+                                headerVo.getCurrentRow().getAttribute("ShipToLocationId"));
+            newRow.setAttribute("ShipToLocationCode",
+                                headerVo.getCurrentRow().getAttribute("ShipToLocationCode"));
+            newRow.setAttribute("UomCode",
+                                lineVo.getCurrentRow().getAttribute("Uom"));
+            schVO.insertRow(newRow);
+        }
+    }
