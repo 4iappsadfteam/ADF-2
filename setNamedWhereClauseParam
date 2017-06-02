@@ -1,0 +1,12 @@
+
+
+    public void onClickSave(ActionEvent actionEvent) {
+        ADFUtils.findOperation("Commit").execute();
+        JSFUtils.addFacesInformationMessage("Saved");
+        Row headCurrentRow=headVo.getCurrentRow();
+        System.err.println("Current Row Header"+headCurrentRow.getAttribute("CpoHeaderId"));
+        budgetVo.setNamedWhereClauseParam("header_id", headCurrentRow.getAttribute("CpoHeaderId"));
+        budgetVo.executeQuery();
+        
+        
+    }
