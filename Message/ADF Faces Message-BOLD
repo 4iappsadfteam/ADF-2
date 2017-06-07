@@ -28,3 +28,7 @@ Faces Message:
                                                   lastOrderIndex) + "</b></p>" +
                                "</body> </html>");
                 JSFUtils.addFacesInformationMessage(builder.toString());
+
+*********************************************************************************************************
+
+builder.append("<p>PO Number :</p><" +"font color='red'>"+ getdata +"</font></p>");
