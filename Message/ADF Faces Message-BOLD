@@ -29,6 +29,6 @@ Faces Message:
                                "</body> </html>");
                 JSFUtils.addFacesInformationMessage(builder.toString());
 
-*********************************************************************************************************
+***********************Color**********************************************************************************
 
-builder.append("<p>PO Number :</p><" +"font color='red'>"+ getdata +"</font></p>");
+builder.append("<p style="color:blue">PO Created Successfully.</p>");
