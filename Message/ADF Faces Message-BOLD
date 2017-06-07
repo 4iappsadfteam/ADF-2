@@ -18,3 +18,13 @@ Faces Message:
         ctx.addMessage(getRootViewComponentId(), fm);
         
     }
+
+*************************************BOLD********************************************************************
+
+                StringBuilder builder = new StringBuilder("<html> <body>");
+                builder.append("<p>PO Created Successfully.</p>");
+                builder.append("<p>PO Number :</p><b>" +
+                               response.substring(firstOrderIndex + 12,
+                                                  lastOrderIndex) + "</b></p>" +
+                               "</body> </html>");
+                JSFUtils.addFacesInformationMessage(builder.toString());
