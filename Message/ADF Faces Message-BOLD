@@ -34,3 +34,13 @@ Faces Message:
 StringBuilder builder = new StringBuilder("<html> <body>");
                          builder.append("<p style=\"color:blue\">PO Created Successfully.</p>");
                          builder.append("</body> </html>"); 
+
+--------------------------------------------------------------------------------------------------------
+
+StringBuilder builder = new StringBuilder("<html> <body>");
+        builder.append("<p style=\"color:blue\">PO Created Successfully.</p>");
+        builder.append("</body> </html>");
+        JSFUtils.addFacesInformationMessage(builder.toString());
+        
+********************************************************************************************************************        
+        
