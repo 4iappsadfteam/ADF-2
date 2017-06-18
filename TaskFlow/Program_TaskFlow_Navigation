@@ -1,0 +1,37 @@
+
+1 Task Flow
+2 Fragment
+
+1 fragment to another fragment
+
+    Boolean checkFlag=false;
+    
+  *******************Fragment 1********************  
+    
+    public void onClickValidate(ActionEvent actionEvent) {
+        
+        String name=this.it1.getValue()==null?"":this.it1.getValue().toString();
+        System.out.println("name"+name);
+        String pass=this.it2.getValue()==null?"":this.it2.getValue().toString();
+        System.out.println("pass"+pass);
+        if(name.equals("111")&& pass.equals("555")){
+            checkFlag=true;
+            System.err.println("True"+checkFlag);
+            
+        }else{
+            checkFlag=false;
+            System.err.println("False"+checkFlag);
+         
+        }
+    }
+
+ 
+    public String onclickGO() {
+        String nextpage="page1";
+        if(checkFlag.equals(true)){
+            nextpage="gopage2";
+        }else{
+            nextpage="page1";
+        }
+       return nextpage;
+    }
