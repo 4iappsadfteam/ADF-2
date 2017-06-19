@@ -1,0 +1,101 @@
+*********************
+
+    public BGApproval_AMImpl getApplicationModules() {
+        String amDef = "com.bfm.AM.BGApproval_AM";
+        String config = "BGApproval_AMLocal";
+        ApplicationModule am =
+            Configuration.createRootApplicationModule(amDef, config);
+        BGApproval_AMImpl amImpl = (BGApproval_AMImpl)am;
+        return amImpl;
+    }
+
+    public String generateDocNo(String lookupValue) {
+        CallableStatement st = null;
+        String returnmsg = "";
+        String sql = " begin \n" +
+            "XXBFM_util_pkg.get_next_number(:p_doc_type,:p_next_num ,:p_trans_id,:p_err_code,:p_err_msg);\n" +
+            "END;";
+        st =
+ getApplicationModules().getDBTransaction().createCallableStatement(sql,
+                                                                    getApplicationModules().getDBTransaction().DEFAULT);
+        Object obj = lookupValue.toString();
+        try {
+            st.setObject("p_doc_type", obj);
+            st.registerOutParameter("p_next_num", Types.VARCHAR);
+            st.registerOutParameter("p_trans_id", Types.NUMERIC);
+            st.registerOutParameter("p_err_code", Types.VARCHAR);
+            st.registerOutParameter("p_err_msg", Types.VARCHAR);
+            st.execute();
+            System.err.println("TEST 1" + st.getObject("p_next_num"));
+            returnmsg = (String)st.getObject("p_next_num");
+            System.err.println("TEST " + returnmsg);
+        } catch (SQLException sqle) {
+            System.err.println("=sqle=" + sqle.toString());
+            return "Failed to prepare for delivery11";
+        } catch (Exception e) {
+            System.err.println("=Exception=" + e.toString());
+            return "Failed to prepare for delivery12";
+        } finally {
+            try {
+                if (st != null && !st.isClosed()) {
+                    st.close();
+                }
+            } catch (SQLException e) {
+                return "Failed to prepare for delivery13";
+            }
+        }
+        return returnmsg;
+    }
+    
+    
+    ***********************************************************************************************************************************
+    
+    
+    public String invokeRevision() {
+        ViewObject quoteHdr = this.getXxpmQuoteHeader_VO1();
+        CallableStatement st = null;
+        String sql = "BEGIN\n" +
+            "  XXPM_PROPERTY_PKG.revise_quote (:p_qhdr_id,:p_user_id, :P_ERR_CODE, :P_ERR_MSG); \n" +
+            "END;";
+        st =
+ this.getDBTransaction().createCallableStatement(sql, this.getDBTransaction().DEFAULT);
+        try {
+            Object qHrdId = quoteHdr.getCurrentRow().getAttribute("QhdrId");
+            System.err.println("CUrrent qHrdId" + qHrdId);
+            st.setObject("p_qhdr_id", qHrdId);
+            st.setObject("p_user_id", "anonymous");
+            st.registerOutParameter("P_ERR_CODE", Types.VARCHAR);
+            st.registerOutParameter("P_ERR_MSG", Types.VARCHAR);
+            st.execute();
+
+        } catch (SQLException sqle) {
+            System.err.println("=sqle=" + sqle.toString());
+            return "Failed to prepare for delivery11";
+        } catch (Exception e) {
+            return "Failed to prepare for delivery12";
+        } finally {
+            try {
+                if (st != null && !st.isClosed()) {
+
+                    st.close();
+                }
+            } catch (SQLException e) {
+                return "Failed to prepare for delivery13";
+
+            }
+
+            //if("Y".equals(retFlag)){
+            //return "success";
+            //}
+            //else{
+            // return retMessage;
+        }
+        return "SUCCESS";
+    }
+    
+  _______________________________________________________________________
+  
+  
+    OperationBinding docno =
+                        xxpm_view.backing.ADFUtils.getBindingContainer().getOperationBinding("generateDocNo");
+                    docno.execute();
