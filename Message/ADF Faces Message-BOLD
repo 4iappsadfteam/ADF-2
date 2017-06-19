@@ -43,4 +43,11 @@ StringBuilder builder = new StringBuilder("<html> <body>");
         JSFUtils.addFacesInformationMessage(builder.toString());
         
 ********************************************************************************************************************        
-        
+        public static void faceMessageforAutoNumberGen(String pageName,Object autoGenNum){
+       StringBuilder builder = new StringBuilder("<html> <body>");
+       builder.append("Your Entered "+pageName+" <b  style=\"color:#1367ae\">"+autoGenNum+"</b> Saved Successfully ");
+       builder.append("</body> </html>");
+       JSFUtils.addFacesInformationMessage(builder.toString());
+   }
+*******************************************************************************************************************        
+   
