@@ -5,3 +5,28 @@ ADFContext.getCurrent().getPageFlowScope().put("PROJECT_ID", row.getPROJECT_ID()
 
 put:
 ADFContext.getCurrent().getPageFlowScope().get("PROJECT_ID");
+
+
+************************************************************************************************
+
+//Method to set the value of page flow scope created on runtime
+ public void setPageFlowScopeValue(String name, Number value) {
+     ADFContext adfCtx = ADFContext.getCurrent();
+     Map pageFlowScope = adfCtx.getPageFlowScope();
+     pageFlowScope.put(name, value);
+ }
+ 
+ 
+ //method to get the value of page flow scope created on runtime
+ public Object getPageFlowScopeValue(String name) {
+       ADFContext adfCtx = ADFContext.getCurrent();
+       Map pageFlowScope = adfCtx.getPageFlowScope();
+       Object val = pageFlowScope.get(name);
+
+       if (val == null)
+           return 0;
+       else
+           return val;
+ }
+ 
+ ************************************************************************************************
