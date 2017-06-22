@@ -1,0 +1,7 @@
+
+set:
+
+ADFContext.getCurrent().getPageFlowScope().put("PROJECT_ID", row.getPROJECT_ID());
+
+put:
+ADFContext.getCurrent().getPageFlowScope().get("PROJECT_ID");
