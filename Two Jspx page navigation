@@ -1,0 +1,9 @@
+Two page navigation
+
+    public String gonext() {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("untitled2.jspx");
+        } catch (IOException e) {
+        }
+        return null;
+    }
