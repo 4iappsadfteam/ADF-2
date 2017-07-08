@@ -1,0 +1,60 @@
+CopyPO
+
+Calling PL Sql Procedure
+
+
+
+
+
+
+
+    public void onClickCopyPO(ActionEvent actionEvent)throws SQLException{
+        
+        if(headerVO.getEstimatedRowCount()!=0){
+            String headerID = (String)headerVO.getCurrentRow().getAttribute("CpoHeaderId").toString();
+            System.err.println("==Header ID==="+headerID);  
+            Object headerId=headerVO.getCurrentRow().getAttribute("CpoHeaderId");
+          onCallCopyPO(headerId);
+            headerVO.executeQuery();
+        }
+       }
+    
+    private Object[][] dobProcArgs = null;
+   
+    public String onCallCopyPO(Object headId) throws SQLException{
+        oracle.jbo.domain.Number head=new oracle.jbo.domain.Number(headId.toString());
+        //System.err.println("=---headID----"+head);
+        String flag = "Y";
+        Object newHeader=null;
+//        oracle.jbo.domain.Number newHeadId=new oracle.jbo.domain.Number(0);
+        
+        ApplicationModuleImpl am=(ApplicationModuleImpl)ADFUtils.getApplicationModuleForDataControl(null); 
+        dobProcArgs = new Object[][]{ { "IN", head, OracleTypes.NUMBER }, //0
+                    { "OUT", newHeader, OracleTypes.NUMBER }, //1
+                    { "OUT", flag, OracleTypes.VARCHAR } }; //2
+
+        try {
+            DBUtils.callDBStoredProcedure(am.getDBTransaction(),
+                                      "call xxems_copy_po.create_header(?,?,?)",
+                                      dobProcArgs);
+            
+            } catch (SQLException e) {
+        }
+        System.err.println("======"+flag);
+       // flag=(String)dobProcArgs[2][1];
+        //newHeader=dobProcArgs[1][1];
+//        newHeader=
+        if(flag.equals("Y")) {
+            StringBuilder builder = new StringBuilder("<html> <body>");
+            builder.append("<p>Copy Purchase Order Successfully Completed.</p>");
+            builder.append("New Reference No:"+" <b  style=\"color:#1367ae\">"+dobProcArgs[1][1]+"</b></body></html>");
+            JSFUtils.addFacesInformationMessage(builder.toString());
+          
+           //JSFUtils.addFacesInformationMessage("Copy Purchase Order Completed.");
+        }
+        else {
+            
+        }
+        return flag;
+    }
+        
