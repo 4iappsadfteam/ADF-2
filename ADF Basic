@@ -7,3 +7,19 @@ ADF Repository:
 Netbeans- DevOps   
                 
              
+****************************************************************************************************************
+AppData\Roaming\JDeveloper\system11.1.1.9.40.66.73\DefaultDomain\config\fmwconfig\servers\DefaultServer\logging
+
+SEVERE (most restrictive, highest log level)
+WARNING
+INFO
+CONFIG (the highest low level supported for Oracle ADF)
+FINE
+FINER
+FINEST (least restrictive, lowest log level)
+
+****************************************************************************************************************
+<loggers>
+<logger name='oracle.jbo leve="FINERST">
+
+****************************************************************************************************************
