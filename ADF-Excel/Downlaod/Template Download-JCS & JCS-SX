@@ -1,0 +1,51 @@
+**************Excel Download**************
+Scenario 2: JCS-SX and JCS
+//--------------------------------------------------------------//
+fileDownloadActionListener 
+contentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+filename="Sellcont.xls"
+method="#{backingBeanScope.ContractBean.onClickSellExcel}"
+//--------------------------------------------------------------//
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
+
+    public void onClickSellExcel(FacesContext facesContext,
+                                 OutputStream outputStream) {
+        try {  
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = workbook.createSheet("POI Worksheet");
+        
+            sheet.setColumnWidth(0, 3500);
+            sheet.setColumnWidth(1, 6500);
+            sheet.setColumnWidth(2, 3500);
+            sheet.setColumnWidth(3, 3700);
+            sheet.setColumnWidth(4, 3500);
+            sheet.setColumnWidth(5, 3500);
+            sheet.setColumnWidth(6, 3500);
+            sheet.setColumnWidth(7, 3500);
+        
+            HSSFRow rowhead = sheet.createRow((short)0);
+            //rowhead.createCell(0).setCellValue("S.No");
+            rowhead.createCell(0).setCellValue("Rel Line Number111");
+            rowhead.createCell(1).setCellValue("Contract Line Number");
+        //        rowhead.createCell(1).setCellValue("Task Number");
+            rowhead.createCell(2).setCellValue("Item Description");
+            rowhead.createCell(3).setCellValue("UOM");
+            rowhead.createCell(4).setCellValue("Quantity");
+            rowhead.createCell(5).setCellValue("Unit Price");
+            rowhead.createCell(6).setCellValue("Project Number");
+            rowhead.createCell(7).setCellValue("Task Number");
+            
+        sheet.createFreezePane(0, 1, 0, 1);
+        //        FileOutputStream fileOut = new FileOutputStream(new File("sellUpload.xls"));
+        //        sheet.write(fileOut);
+        workbook.write(outputStream);
+        outputStream.flush();
+        }
+        catch (Exception e) {
+        e.printStackTrace();
+        }
+    }
+//--------------------------------------------------------------//
