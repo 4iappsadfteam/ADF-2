@@ -1,0 +1,43 @@
+Compare to List
+
+                    RowSetIterator assignRs=assignVO.createRowSetIterator(null);
+                    RowSetIterator popRs = popVO.createRowSetIterator(null);
+                    List<String> assignList=new ArrayList();
+                    List<String> popupList=new ArrayList();
+                    while(assignRs.hasNext()){
+                        Row assignRow=assignRs.next();
+                        // check assign row data
+                        if(assignRow.getAttribute("ResourceId")!=null){
+//                            String assResId=assignRow.getAttribute("ResourceId")==null?"0":assignRow.getAttribute("ResourceId").toString();
+                                assignList.add(assignRow.getAttribute("ResourceId")==null?"0":assignRow.getAttribute("ResourceId").toString());
+                         }
+                        
+                    }
+                    
+                    while(popRs.hasNext()){
+                        Row popRow=popRs.next();
+                        // check assign row data
+                        if(popRow.getAttribute("Select_TRNS")!=null){
+                            if(popRow.getAttribute("Select_TRNS").toString().equals("true")){
+                                //String assResId=popRow.getAttribute("ResourceId")==null?"0":popRow.getAttribute("ResourceId").toString();
+                            popupList.add(popRow.getAttribute("ResourceId")==null?"0":popRow.getAttribute("ResourceId").toString());
+                                
+                            }
+                         }
+                        
+                    }
+                    for(int i=0;i<popupList.size();i++){
+                        if(assignList.contains(popupList.get(i))){
+                            System.err.println("");
+                        }else{
+                            System.err.println("---ID-->>"+popupList.get(i));
+//                            Row curRow=assignVO.createRow();
+//                            curRow.setAttribute("RequestId",lineVO.getCurrentRow().getAttribute("RequestId"));
+//                            curRow.setAttribute("ResourceId",popupList.get(i));
+//                            curRow.setAttribute("StartDate",lineVO.getCurrentRow().getAttribute("RequestStartDate"));
+//                            curRow.setAttribute("EndDate",lineVO.getCurrentRow().getAttribute("RequestEndDate"));
+//                            curRow.setAttribute("HoursAssigned",lineVO.getCurrentRow().getAttribute("HoursReqPerDay"));
+//                            assignVO.insertRow(curRow);  
+                        }
+                    }
+                    
